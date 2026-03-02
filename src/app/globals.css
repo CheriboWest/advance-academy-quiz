@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #050912;
+  --gold: #c9a84c;
+  --cream: #f5f0e8;
+  --font-cinzel: 'Cinzel', serif;
+  --font-lato: 'Lato', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--navy);
+  color: var(--cream);
+  font-family: var(--font-lato), sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #050912;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 168, 76, 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 168, 76, 0.6);
+}
+
+/* Selection colour */
+::selection {
+  background: rgba(201, 168, 76, 0.3);
+  color: #f5f0e8;
+}
+
+/* Smooth transitions for quiz slides */
+.quiz-slide-enter {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.quiz-slide-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 350ms ease-out, transform 350ms ease-out;
+}
+.quiz-slide-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+.quiz-slide-exit-active {
+  opacity: 0;
+  transform: translateX(-40px);
+  transition: opacity 250ms ease-in, transform 250ms ease-in;
+}
+
+/* Gold shimmer on headings */
+.gold-shimmer {
+  background: linear-gradient(
+    90deg,
+    #c9a84c 0%,
+    #e2c06e 40%,
+    #c9a84c 60%,
+    #a0852d 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+/* Progress bar glow */
+.progress-glow {
+  box-shadow: 0 0 10px rgba(201, 168, 76, 0.6), 0 0 20px rgba(201, 168, 76, 0.3);
+}
+
+/* Fade-in utility */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Stagger delay helpers */
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }

@@ -1,0 +1,8 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "env": {
+    "GOOGLE_SHEETS_WEBHOOK_URL": "@google_sheets_webhook_url"
+  }
+}
