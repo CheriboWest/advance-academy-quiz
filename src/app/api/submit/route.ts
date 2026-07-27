@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, whatsapp, house, scoreBreakdown } = body;
+    const { name, email, whatsapp, house, scoreBreakdown, consentMarketing } = body;
 
     // Basic validation
     if (!name || !email || !whatsapp || !house) {
@@ -43,6 +43,32 @@ export async function POST(request: Request) {
         house,
         scoreBreakdown,
       });
+    }
+
+    // Pipe the lead into the Candidate Acquisition store (CA-001) in parallel with
+    // the existing Google Sheet. Best-effort: a failure here must never block the
+    // user's result. `source: 'quiz'` lets the backend segment quiz leads.
+    const captureUrl = process.env.LEADS_CAPTURE_URL;
+    if (captureUrl) {
+      try {
+        const res = await fetch(captureUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            name,
+            source: 'quiz',
+            leadMagnetId: 'career-house-quiz',
+            consentMarketing: consentMarketing === true,
+            result: { house, scoreBreakdown: scoreBreakdown ?? '', whatsapp },
+          }),
+        });
+        if (!res.ok) {
+          console.error('Lead capture error:', res.status, res.statusText);
+        }
+      } catch (err) {
+        console.error('Lead capture request failed:', err);
+      }
     }
 
     return NextResponse.json({ success: true });

@@ -13,6 +13,7 @@ export default function EmailGate({ onSubmit, isLoading }: EmailGateProps) {
     name: '',
     email: '',
     whatsapp: '',
+    consentMarketing: false,
   });
   const [errors, setErrors] = useState<Partial<UserData>>({});
 
@@ -189,8 +190,30 @@ export default function EmailGate({ onSubmit, isLoading }: EmailGateProps) {
             )}
           </button>
 
+          {/* Marketing consent — un-pre-ticked, NOT required to see the result */}
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={formData.consentMarketing}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, consentMarketing: e.target.checked }))
+              }
+              disabled={isLoading}
+              className="mt-1 h-4 w-4 shrink-0 accent-gold"
+            />
+            <span className="text-cream/60 text-xs leading-relaxed">
+              I&apos;d like to receive career tips and updates from Advance Academy by
+              email. (Optional — you&apos;ll still see your result either way. Unsubscribe
+              anytime.)
+            </span>
+          </label>
+
           <p className="text-center text-cream/30 text-xs">
-            Your details are safe with us. We only use them to send you career insights.
+            We use your details in line with our{' '}
+            <a href="/privacy" className="underline hover:text-cream/50">
+              Privacy Notice
+            </a>
+            .
           </p>
         </div>
       </form>

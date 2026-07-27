@@ -30,6 +30,9 @@ export interface UserData {
   name: string;
   email: string;
   whatsapp: string;
+  // Explicit, un-pre-ticked marketing opt-in (UK GDPR / PECR). Not required to
+  // see the result — only gates whether we email/nurture the lead.
+  consentMarketing: boolean;
 }
 
 export type QuizPhase = 'intro' | 'quiz' | 'email' | 'results';

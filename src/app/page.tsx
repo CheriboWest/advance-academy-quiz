@@ -16,7 +16,7 @@ export default function Home() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [scores, setScores] = useState<Scores>({ SG: 0, AO: 0, CC: 0, EA: 0, PL: 0 });
   const [resultHouseId, setResultHouseId] = useState<HouseId>('SG');
-  const [userData, setUserData] = useState<UserData>({ name: '', email: '', whatsapp: '' });
+  const [userData, setUserData] = useState<UserData>({ name: '', email: '', whatsapp: '', consentMarketing: false });
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
@@ -70,6 +70,7 @@ export default function Home() {
           whatsapp: data.whatsapp,
           house: resultHouseId,
           scoreBreakdown,
+          consentMarketing: data.consentMarketing,
         }),
       });
     } catch {
