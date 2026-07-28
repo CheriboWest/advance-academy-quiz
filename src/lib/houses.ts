@@ -5,6 +5,8 @@ export const houses: House[] = [
     id: 'SG',
     name: 'The Strategist Guild',
     tagline: 'Masters of the Long Game',
+    teaser:
+      'You lean strategic — you naturally see the big picture and the long game. Your edge is turning complexity into a clear plan; your watch-out is over-planning while the moment to act slips by.',
     description:
       'You think like a chess grandmaster in a world of checkers players. The Strategist Guild recognises your rare ability to see patterns, anticipate consequences, and shape the direction of organisations before others even see the opportunity. You are the architect of outcomes — the person senior leaders lean on when it matters most.',
     strengths: [
@@ -38,6 +40,8 @@ export const houses: House[] = [
     id: 'AO',
     name: 'The Analytical Order',
     tagline: 'Conjurers of Clarity',
+    teaser:
+      'You lean analytical — you turn messy data into confident decisions. Your edge is rigour and evidence; your watch-out is over-analysing when speed matters and sounding too technical for non-experts.',
     description:
       'Where others see chaos, you see patterns. Where others see risk, you see probability. The Analytical Order recognises your gift for transforming complex, messy data into clarity, confidence, and competitive advantage. You are the person organisations cannot afford to make major decisions without.',
     strengths: [
@@ -71,6 +75,8 @@ export const houses: House[] = [
     id: 'CC',
     name: 'The Connector Circle',
     tagline: 'Wielders of Human Magic',
+    teaser:
+      'You lean relational — people and networks are your superpower. Your edge is influence and opening doors; your watch-out is avoiding hard conversations to keep everyone happy.',
     description:
       'People are your superpower. The Connector Circle recognises your magnetic ability to build relationships, open doors, and turn networks into opportunities that change careers, companies, and communities. You do not just know people — you bring the right people together at exactly the right moment.',
     strengths: [
@@ -104,6 +110,8 @@ export const houses: House[] = [
     id: 'EA',
     name: 'The Execution Alliance',
     tagline: 'Architects of the Done',
+    teaser:
+      'You lean execution — you get things done while others are still planning. Your edge is delivery and reliability; your watch-out is becoming the default "doer" without positioning yourself for leadership.',
     description:
       'While others dream, you deliver. The Execution Alliance recognises your exceptional ability to transform ambitious plans into tangible reality, lead teams through complexity, and bring order to chaos. You are the person every great team needs — the one who actually makes things happen.',
     strengths: [
@@ -137,6 +145,8 @@ export const houses: House[] = [
     id: 'PL',
     name: 'The Pioneer League',
     tagline: 'Forgers of New Worlds',
+    teaser:
+      'You lean entrepreneurial — you spot opportunity and build where others hesitate. Your edge is creativity and drive; your watch-out is chasing the next idea before finishing the last.',
     description:
       'You do not follow paths — you forge them. The Pioneer League recognises your entrepreneurial spirit, your appetite for innovation, and your rare ability to see opportunity where others only see risk. You are wired for creation, built for disruption, and driven by the question: "What if we built something better?"',
     strengths: [

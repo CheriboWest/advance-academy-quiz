@@ -15,6 +15,9 @@ export interface House {
   id: HouseId;
   name: string;
   tagline: string;
+  // Short hand-written feedback shown on the pre-email "reveal" step (P1).
+  // Template only — NO LLM. One line of strength + one thing to work on.
+  teaser: string;
   description: string;
   strengths: string[];
   industries: string[];
@@ -35,6 +38,6 @@ export interface UserData {
   consentMarketing: boolean;
 }
 
-export type QuizPhase = 'intro' | 'quiz' | 'email' | 'results';
+export type QuizPhase = 'intro' | 'quiz' | 'reveal' | 'email' | 'results';
 
 export type Scores = Record<HouseId, number>;

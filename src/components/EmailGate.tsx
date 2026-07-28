@@ -6,9 +6,10 @@ import type { UserData } from '@/lib/types';
 interface EmailGateProps {
   onSubmit: (data: UserData) => void;
   isLoading: boolean;
+  houseName?: string;
 }
 
-export default function EmailGate({ onSubmit, isLoading }: EmailGateProps) {
+export default function EmailGate({ onSubmit, isLoading, houseName }: EmailGateProps) {
   const [formData, setFormData] = useState<UserData>({
     name: '',
     email: '',
@@ -60,11 +61,12 @@ export default function EmailGate({ onSubmit, isLoading }: EmailGateProps) {
       <div className="text-center mb-8">
         <div className="text-4xl mb-4">✨</div>
         <h2 className="font-cinzel text-2xl sm:text-3xl text-cream mb-3">
-          Your Result Awaits
+          Unlock Your Full Blueprint
         </h2>
         <p className="text-cream/60 text-sm sm:text-base leading-relaxed">
-          The Sorting Ceremony has spoken. Enter your details to reveal your
-          Career House and unlock your personalised career blueprint.
+          {houseName ? `You're ${houseName}! ` : ''}Enter your details to unlock your
+          personalised blueprint — your core strengths, best-fit UK industries, and 3
+          strategic next steps.
         </p>
       </div>
 
@@ -183,10 +185,10 @@ export default function EmailGate({ onSubmit, isLoading }: EmailGateProps) {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                   />
                 </svg>
-                Revealing your house...
+                Unlocking your blueprint...
               </span>
             ) : (
-              'Reveal My Career House →'
+              'Unlock My Blueprint →'
             )}
           </button>
 

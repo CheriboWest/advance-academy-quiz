@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import ParticleBackground from '@/components/ParticleBackground';
 import QuizQuestion from '@/components/QuizQuestion';
 import EmailGate from '@/components/EmailGate';
@@ -20,6 +20,25 @@ export default function Home() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  // P3a: capture UTM params from the landing URL (?utm_source=fb_group&...) so
+  // the backend can segment leads by channel. Read once on mount; sent at submit.
+  const [utm, setUtm] = useState<{ source: string | null; medium: string | null; campaign: string | null }>({
+    source: null,
+    medium: null,
+    campaign: null,
+  });
+  // P3c: referral code of the inviter, read from ?ref= on the landing URL.
+  const [ref, setRef] = useState<string | null>(null);
+
+  useEffect(() => {
+    const p = new URLSearchParams(window.location.search);
+    setUtm({
+      source: p.get('utm_source'),
+      medium: p.get('utm_medium'),
+      campaign: p.get('utm_campaign'),
+    });
+    setRef(p.get('ref'));
+  }, []);
 
   const progress =
     phase === 'quiz' ? ((questionIndex + 1) / TOTAL_QUESTIONS) * 100 : 0;
@@ -44,7 +63,9 @@ export default function Home() {
           )[0];
           setResultHouseId(winner);
           setIsTransitioning(false);
-          setPhase('email');
+          // P1: show the template feedback first (no email), then gate the full
+          // blueprint behind the email step.
+          setPhase('reveal');
         }
       }, 320);
     },
@@ -71,6 +92,8 @@ export default function Home() {
           house: resultHouseId,
           scoreBreakdown,
           consentMarketing: data.consentMarketing,
+          utm,
+          ref,
         }),
       });
     } catch {
@@ -230,10 +253,51 @@ export default function Home() {
             </div>
           )}
 
+          {/* ——— REVEAL (template feedback, no email required) ——— */}
+          {phase === 'reveal' && resultHouse && (
+            <div className="glass-card rounded-2xl p-6 sm:p-8 animate-fade-in max-w-lg mx-auto text-center">
+              <p className="text-gold/70 text-xs tracking-widest uppercase font-sans mb-4">
+                The Sorting Ceremony has spoken
+              </p>
+              <div className="text-6xl mb-3 animate-float">{resultHouse.emoji}</div>
+              <h2 className="font-cinzel text-2xl sm:text-3xl text-gold mb-1">
+                {resultHouse.name}
+              </h2>
+              <p className="text-cream/70 text-sm sm:text-base italic mb-6 font-sans">
+                {resultHouse.tagline}
+              </p>
+
+              <p className="text-cream/80 text-sm sm:text-base leading-relaxed mb-8">
+                {resultHouse.teaser}
+              </p>
+
+              <button
+                onClick={() => setPhase('email')}
+                className="inline-block w-full py-4 px-6 rounded-xl font-cinzel font-bold
+                  text-navy text-sm sm:text-base tracking-wider uppercase
+                  bg-gradient-to-r from-gold to-gold-light
+                  hover:from-gold-light hover:to-gold
+                  transition-all duration-200
+                  shadow-lg hover:shadow-gold/40 animate-pulse-glow"
+                style={{ boxShadow: '0 0 30px rgba(201,168,76,0.3)' }}
+              >
+                Unlock My Full Blueprint →
+              </button>
+              <p className="text-cream/40 text-xs mt-4">
+                Your strengths, best-fit UK industries &amp; 3 strategic next steps —
+                free.
+              </p>
+            </div>
+          )}
+
           {/* ——— EMAIL GATE ——— */}
           {phase === 'email' && (
             <div className="glass-card rounded-2xl p-6 sm:p-8">
-              <EmailGate onSubmit={handleEmailSubmit} isLoading={isSubmitting} />
+              <EmailGate
+                onSubmit={handleEmailSubmit}
+                isLoading={isSubmitting}
+                houseName={resultHouse?.name}
+              />
               {submitError && (
                 <p className="mt-4 text-center text-red-400 text-sm">{submitError}</p>
               )}

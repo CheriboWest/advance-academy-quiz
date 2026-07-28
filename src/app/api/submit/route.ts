@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, whatsapp, house, scoreBreakdown, consentMarketing } = body;
+    const { name, email, whatsapp, house, scoreBreakdown, consentMarketing, utm, ref } = body;
 
     // Basic validation
     if (!name || !email || !whatsapp || !house) {
@@ -61,6 +61,15 @@ export async function POST(request: Request) {
             leadMagnetId: 'career-house-quiz',
             consentMarketing: consentMarketing === true,
             result: { house, scoreBreakdown: scoreBreakdown ?? '', whatsapp },
+            // P3a: channel attribution. utm.source defaults to 'quiz' so leads
+            // that arrive without a tagged link still segment sensibly.
+            utm: {
+              source: utm?.source ?? 'quiz',
+              medium: utm?.medium ?? null,
+              campaign: utm?.campaign ?? null,
+            },
+            // P3c: referral code of the inviter (if the friend arrived via ?ref=).
+            ref: ref ?? null,
           }),
         });
         if (!res.ok) {
