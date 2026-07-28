@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import type { House, Scores } from '@/lib/types';
 import { houses } from '@/lib/houses';
 
@@ -12,6 +13,25 @@ interface ResultsPageProps {
 export default function ResultsPage({ house, scores, userName }: ResultsPageProps) {
   const firstName = userName.split(' ')[0];
   const totalAnswers = Object.values(scores).reduce((a, b) => a + b, 0);
+  const [copied, setCopied] = useState(false);
+
+  // P3b: viral share. Link back to the quiz tagged utm_source=share so leads that
+  // arrive through a friend's share are attributed to that channel.
+  async function handleShare() {
+    const url = `${window.location.origin}/?utm_source=share`;
+    const text = `I'm ${house.name} ${house.emoji} in the Advance Academy Career Sorting Ceremony! Discover your Career House:`;
+    try {
+      if (typeof navigator !== 'undefined' && navigator.share) {
+        await navigator.share({ title: 'My Career House', text, url });
+        return;
+      }
+      await navigator.clipboard.writeText(`${text} ${url}`);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // User cancelled the share sheet, or clipboard blocked — no-op.
+    }
+  }
 
   const houseOrder: Array<keyof Scores> = ['SG', 'AO', 'CC', 'EA', 'PL'];
 
@@ -264,10 +284,21 @@ export default function ResultsPage({ house, scores, userName }: ResultsPageProp
       </div>
 
       {/* Share prompt */}
-      <div className="text-center pb-8">
+      <div className="text-center pb-8 space-y-4">
         <p className="text-cream/40 text-xs sm:text-sm">
           Share your result and inspire someone you know to discover their Career House.
         </p>
+        <button
+          onClick={handleShare}
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-cinzel font-bold
+            text-navy text-sm tracking-wider uppercase
+            bg-gradient-to-r from-gold to-gold-light
+            hover:from-gold-light hover:to-gold
+            transition-all duration-200 shadow-lg hover:shadow-gold/40"
+          style={{ boxShadow: '0 0 20px rgba(201,168,76,0.3)' }}
+        >
+          {copied ? '✓ Link copied!' : '🔗 Share my result'}
+        </button>
       </div>
     </div>
   );
